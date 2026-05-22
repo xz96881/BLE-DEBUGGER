@@ -141,6 +141,25 @@ class BleViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
+        // Load default preset "重置U盾蓝牙" (HEX FE DE CE DE) on first launch
+        val prefs = getApplication<Application>().getSharedPreferences("ble_debugger_prefs", android.content.Context.MODE_PRIVATE)
+        if (!prefs.getBoolean("default_preset_loaded_v1", false)) {
+            viewModelScope.launch {
+                try {
+                    presetDao.insertPreset(
+                        CommandPresetEntity(
+                            label = "重置U盾蓝牙",
+                            payload = "FE DE CE DE",
+                            isHex = true
+                        )
+                    )
+                    prefs.edit().putBoolean("default_preset_loaded_v1", true).apply()
+                } catch (e: Exception) {
+                    postLog("SYSTEM", LogLevel.ERROR, "初始化默认指令失败: ${e.localizedMessage}")
+                }
+            }
+        }
+
         // Collect logs emitted from the controller and insert them into viewModel state
         viewModelScope.launch {
             bleController.logFlow.collect { logItem ->

@@ -761,12 +761,15 @@ fun TabBatchController(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     OutlinedTextField(
                         value = serviceUuid,
                         onValueChange = onServiceUuidChange,
                         label = { Text("服务 UUID (Gatt Service)", fontSize = 10.sp, color = SlateText) },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = LightText),
                         shape = RoundedCornerShape(4.dp),
                         singleLine = true,
@@ -781,7 +784,7 @@ fun TabBatchController(
                         value = characteristicUuid,
                         onValueChange = onCharacteristicUuidChange,
                         label = { Text("写入特征 UUID (Write Char)", fontSize = 10.sp, color = SlateText) },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = LightText),
                         shape = RoundedCornerShape(4.dp),
                         singleLine = true,
@@ -1340,6 +1343,7 @@ fun TabBatchController(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -1479,40 +1483,47 @@ fun TabTerminalLogs(
                             LogLevel.RX -> NeonCyan
                         }
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.Top
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp)
                         ) {
-                            Text(
-                                text = "[${log.formattedTime}]",
-                                color = SlateText,
-                                fontSize = 11.sp,
-                                fontFamily = FontFamily.Monospace,
-                                modifier = Modifier.padding(end = 6.dp)
-                            )
-                            
-                            Box(
-                                modifier = Modifier
-                                    .padding(end = 6.dp)
-                                    .clip(RoundedCornerShape(2.dp))
-                                    .background(color.copy(0.12f))
-                                    .padding(horizontal = 4.dp)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = log.tag,
-                                    color = color,
-                                    fontSize = 9.sp,
+                                    text = "[${log.formattedTime}]",
+                                    color = SlateText,
+                                    fontSize = 11.sp,
                                     fontFamily = FontFamily.Monospace,
-                                    fontWeight = FontWeight.Bold
+                                    modifier = Modifier.padding(end = 6.dp)
                                 )
+                                
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(2.dp))
+                                        .background(color.copy(0.12f))
+                                        .padding(horizontal = 4.dp, vertical = 1.dp)
+                                ) {
+                                    Text(
+                                        text = log.tag,
+                                        color = color,
+                                        fontSize = 9.sp,
+                                        fontFamily = FontFamily.Monospace,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
-
+                            
+                            Spacer(modifier = Modifier.height(3.dp))
+                            
                             Text(
                                 text = log.message,
                                 color = if (log.level == LogLevel.INFO) LightText.copy(0.85f) else color,
                                 fontSize = 11.sp,
                                 fontFamily = FontFamily.Monospace,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.fillMaxWidth()
                             )
                         }
                     }

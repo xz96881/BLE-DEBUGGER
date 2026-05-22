@@ -70,9 +70,20 @@ class BleController(private val context: Context) {
         }
     }
 
+    private fun getDeviceNameSafe(device: BluetoothDevice?): String {
+        if (device == null) return "未知设备 (Unnamed)"
+        return try {
+            device.name ?: "未知设备 (Unnamed)"
+        } catch (e: SecurityException) {
+            "未知设备 (未授权)"
+        } catch (e: Exception) {
+            "未知设备 (Unnamed)"
+        }
+    }
+
     private fun enableNotificationForDevice(gatt: BluetoothGatt, serviceUuidStr: String, notifyUuidStr: String) {
         val address = gatt.device?.address ?: ""
-        val name = gatt.device?.name ?: "Unnamed"
+        val name = getDeviceNameSafe(gatt.device)
         try {
             val sUid = UUID.fromString(serviceUuidStr)
             val cUid = UUID.fromString(notifyUuidStr)
@@ -168,7 +179,7 @@ class BleController(private val context: Context) {
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             super.onScanResult(callbackType, result)
             result?.device?.let { device ->
-                val name = device.name ?: "未知设备 (Unnamed)"
+                val name = getDeviceNameSafe(device)
                 val address = device.address ?: ""
                 if (address.isNotEmpty()) {
                     val bleDevice = BleDevice(
@@ -429,7 +440,7 @@ class BleController(private val context: Context) {
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             super.onConnectionStateChange(gatt, status, newState)
             val address = gatt?.device?.address ?: return
-            val name = gatt.device?.name ?: "Unnamed Device"
+            val name = getDeviceNameSafe(gatt.device)
 
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 emitLog("GATT", LogLevel.ERROR, "[$address] 连接出错! 错误代码: $status")
@@ -507,7 +518,7 @@ class BleController(private val context: Context) {
         ) {
             super.onCharacteristicWrite(gatt, characteristic, status)
             val address = gatt?.device?.address ?: return
-            val name = gatt.device?.name ?: "Unnamed"
+            val name = getDeviceNameSafe(gatt.device)
             val charUuid = characteristic?.uuid?.toString() ?: ""
             
             if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -526,7 +537,7 @@ class BleController(private val context: Context) {
         ) {
             super.onCharacteristicChanged(gatt, characteristic, value)
             val address = gatt.device?.address ?: ""
-            val name = gatt.device?.name ?: "Unnamed"
+            val name = getDeviceNameSafe(gatt.device)
             val hexStr = value.joinToString("") { String.format("%02X ", it) }.trim()
             val asciiStr = try {
                 val s = String(value, Charsets.UTF_8).replace("[\\x00-\\x1F\\x7F]".toRegex(), ".")
@@ -546,7 +557,7 @@ class BleController(private val context: Context) {
             @Suppress("DEPRECATION")
             val value = characteristic?.value ?: return
             val address = gatt?.device?.address ?: ""
-            val name = gatt?.device?.name ?: "Unnamed"
+            val name = getDeviceNameSafe(gatt?.device)
             val hexStr = value.joinToString("") { String.format("%02X ", it) }.trim()
             val asciiStr = try {
                 val s = String(value, Charsets.UTF_8).replace("[\\x00-\\x1F\\x7F]".toRegex(), ".")
