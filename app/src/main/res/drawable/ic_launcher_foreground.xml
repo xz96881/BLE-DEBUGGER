@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Center BLE High contrast Vector Icon -->
+    <!-- Center is at (54, 54) -->
+    <!-- Bluetooth Core Shape -->
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M54.0,24.0 L66.0,36.0 L54.0,48.0 Z M54.0,60.0 L66.0,72.0 L54.0,84.0 Z M54.0,12.0 L54.0,96.0 L50.0,96.0 L50.0,58.0 L38.0,46.0 L42.0,42.0 L50.0,50.0 L50.0,46.0 L42.0,38.0 L38.0,34.0 L50.0,22.0 L50.0,12.0 Z" />
+    
+    <!-- Outer batch waves - left pulse -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M30,34 C24,44 24,64 30,74" />
+    <path
+        android:strokeColor="#39FF14"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M22,26 C14,38 14,70 22,82" />
+
+    <!-- Outer batch waves - right pulse -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M78,34 C84,44 84,64 78,74" />
+    <path
+        android:strokeColor="#39FF14"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M86,26 C94,38 94,70 86,82" />
+</vector>

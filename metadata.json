@@ -1,0 +1,6 @@
+{
+  "name": "BLE Debugger",
+  "description": "一种高效的蓝牙BLE调试框架，支持运行时权限获取、设备扫描（读取蓝牙名称及MAC地址）、多设备连接与一键向多个设备发送相同指令（群发/批量控制），自带高保真模拟环境以便在无硬件时调试。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
